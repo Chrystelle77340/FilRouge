@@ -12,7 +12,7 @@ public class Utilisateur extends Personne {
 	private String pwd;
 	private String pseudonyme;
 	
-	private ArrayList <EmpruntEnCours> empruntsEnCours = new ArrayList <EmpruntEnCours>();
+	protected ArrayList <EmpruntEnCours> empruntsEnCours = new ArrayList <EmpruntEnCours>();
 	
 	private ArrayList <EmpruntArchive> empruntsArchives = new ArrayList <EmpruntArchive>();
 	
@@ -95,24 +95,19 @@ public class Utilisateur extends Personne {
 				", empruntsEnCours = " + empruntsEnCours + ", empruntsArchives = " + empruntsArchives + "]";
 	}
 	
-	public void addEmpruntEnCours(EmpruntEnCours ep) {
-		empruntsEnCours.add(ep);
+	public void addEmpruntEnCours(EmpruntEnCours ep) throws BiblioException {
+		this.empruntsEnCours.add(ep);
 	}
 	
 
 	public int getNbEmpruntsEnCours() {
-		return 0;
+		return this.empruntsEnCours.size();
 	}
 	
 	
+	public boolean isConditionsPretAcceptees() throws BiblioException {
+		return true;
+		}
 	
-	public static void main(String[] args) {
-		
-		
-		
-	}
-
-	
-
 	
 }

@@ -46,8 +46,9 @@ public class EmpruntEnCours {
 		return utilisateur;
 	}
 
-	public void setUtilisateur(Utilisateur utilisateur) {
+	public void setUtilisateur(Utilisateur utilisateur) throws BiblioException {
 		this.utilisateur = utilisateur;
+		this.getUtilisateur().addEmpruntEnCours(this);
 	}
 	
 	
@@ -57,6 +58,7 @@ public class EmpruntEnCours {
 
 	public void setExemplaire(Exemplaire exemplaire) {
 		this.exemplaire = exemplaire;
+		this.getExemplaire().setEmpruntEnCours(this);	
 	}
 
 
@@ -65,15 +67,6 @@ public class EmpruntEnCours {
 	@Override
 	public String toString() {
 		return "EmpruntEnCours [dateEmprunt = " + dateEmprunt + ", utilisateur = " + utilisateur + ", exemplaire = " + exemplaire + "]";
-	}
-	
-	
-	
-	
-	public static void main(String[] args) {
-		
-		
-
 	}
 	
 

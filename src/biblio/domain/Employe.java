@@ -27,6 +27,11 @@ public class Employe extends Utilisateur {
 		this.categorieEmploye = categorieEmploye;
 	}
 
+	
+	public Employe(String nom, String prenom, int idUtilisateur) {
+		super(nom, prenom, idUtilisateur);
+	}
+	
 
 	// GETTERS ET SETTERS
 	
@@ -56,14 +61,10 @@ public class Employe extends Utilisateur {
 	}
 	
 	
-	
+	public boolean isConditionsPretAcceptees() throws BiblioException {
+		return true;
+		}
 
 
-	public static void main(String[] args) {
-		
-		
-
-	}
-	
 
 }

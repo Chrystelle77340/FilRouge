@@ -25,6 +25,14 @@ public class Exemplaire {
 	}
 	
 	
+	public Exemplaire(int idExemplaire, LocalDate dateAchat, String isbn) {
+		super();
+		this.idExemplaire = idExemplaire;
+		this.dateAchat = dateAchat;
+		this.isbn = isbn;
+	}
+
+
 	public Exemplaire(int idExemplaire, LocalDate dateAchat, EnumStatusExemplaire status, String isbn, EmpruntEnCours empruntEnCours) {
 		super();
 		this.idExemplaire = idExemplaire;
@@ -98,15 +106,6 @@ public class Exemplaire {
 	public String toString() {
 		return "Exemplaire [idExemplaire = " + idExemplaire + ", dateAchat = " + dateAchat + ", status = " + status + ", isbn = " + isbn + 
 				", empruntEnCours = " + empruntEnCours + ", empruntsArchives = " + empruntsArchives + "]";
-	}
-
-	
-	
-	
-	public static void main(String[] args) {
-		
-		
-
 	}
 
 

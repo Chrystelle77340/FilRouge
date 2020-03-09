@@ -1,6 +1,7 @@
 package biblio.domain;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Adherent extends Utilisateur {
 
@@ -8,10 +9,10 @@ public class Adherent extends Utilisateur {
 	// VARIABLES
 	
 	private String telephone;
-	private static final int nbMaxPrets = 3;
-	private static final int dureeMaxPrets = 15;
+	private static int nbMaxPrets = 3;
+	private static int dureeMaxPrets = 15;
 	
-	private boolean conditionsPretAcceptees;
+	//private boolean conditionsPretAcceptees;
 	
 	
 	// CONSTRUCTEURS
@@ -30,8 +31,13 @@ public class Adherent extends Utilisateur {
 	}
 	
 	
-	// GETTERS ET SETTERS
+	public Adherent(String nom, String prenom, int idUtilisateur) {
+		super(nom, prenom, idUtilisateur);
+	}
 	
+	
+	// GETTERS ET SETTERS
+
 	public String getTelephone() {
 		return telephone;
 	}
@@ -48,15 +54,10 @@ public class Adherent extends Utilisateur {
 	public static int getDureemaxprets() {
 		return dureeMaxPrets;
 	}
-	
-	
-	public boolean isConditionsPretAcceptees() {
-		return conditionsPretAcceptees;
-	}
 
-	public void setConditionsPretAcceptees(boolean conditionsPretAcceptees) {
-		this.conditionsPretAcceptees = conditionsPretAcceptees;
-	}
+//	public void setConditionsPretAcceptees(boolean conditionsPretAcceptees) {
+//		this.conditionsPretAcceptees = conditionsPretAcceptees;
+//	}
 	
 	
 	// METHODES
@@ -66,38 +67,64 @@ public class Adherent extends Utilisateur {
 		return "Adherent [telephone = " + telephone + "]";
 	}
 	
-//	public boolean isConditionsPretAcceptees(Adherent adherent) {
-//		conditionsPretAcceptees = true;
-//		if (nbMaxPrets > 3 && adherent.isPretEnRetard(adherent.))
-//		return false;
+	
+	public static void setNbMaxPrets(Integer nbMaxPrets) {
+		Adherent.nbMaxPrets = nbMaxPrets;
+	}
+	
+	
+	public static void setDureeMaxPrets(Integer dureeMaxPrets) {
+		Adherent.dureeMaxPrets = dureeMaxPrets;
+	}
+	
+	
+	@Override
+	public boolean isConditionsPretAcceptees() throws BiblioException {
+		if (this.getNbRetards() == 0 && this.getNbEmpruntsEnCours() < 3){
+			return true ;
+		}
+		else {
+			try {
+				throw new BiblioException("Prêt non accordé");
+			} 
+			catch (BiblioException e) {				
+			}
+		return false;
+		}
+	}
+	
+	
+//	public boolean isPretEnRetard(EmpruntEnCours ep) {
+//		boolean pretEnRetard = false;
+//		if (ep != null && ep.getDateEmprunt() != null) {
+//			LocalDate today = LocalDate.now();
+//			LocalDate limite = ep.getDateEmprunt().plusDays(dureeMaxPrets);
+//			if (limite.compareTo(today) < 0) {		// compareTo : return chiffre inférieur si date limite < today
+//				pretEnRetard = true;				// si date limite < today, ça veut dire qu'on a dépassé la date limite, d'où retard
+//			}
+//		}
+//		return pretEnRetard;
 //	}
 	
 	
-	public boolean isPretEnRetard(EmpruntEnCours ep) {
-		boolean pretEnRetard = false;
-		if (ep != null && ep.getDateEmprunt() != null) {
-			LocalDate today = LocalDate.now();
-			LocalDate limite = ep.getDateEmprunt().plusDays(dureeMaxPrets);
-			if (limite.compareTo(today) < 0) {		// compareTo : return chiffre inférieur si date limite < today
-				pretEnRetard = true;				// si date limite < today, ça veut dire qu'on a dépassé la date limite, d'où retard
+	@Override
+	public void addEmpruntEnCours(EmpruntEnCours EmpruntEnCours) throws BiblioException {
+		if(isConditionsPretAcceptees()){
+			this.empruntsEnCours.add(EmpruntEnCours);
+		}
+}
+	
+	
+	public int getNbRetards() {
+		int  nbRetards = 0;
+		for (EmpruntEnCours ep : this.getEmpruntsEnCours()){			
+			int duree = (int) ChronoUnit.DAYS.between(ep.getDateEmprunt(), LocalDate.now());	
+			if (duree > 15){
+				nbRetards++;
 			}
 		}
-		return pretEnRetard;
+		return nbRetards;
 	}
 	
-//	public int getNbRetards() {
-//		return nbRetards;
-//	}
-	
-	
-	public static void main(String[] args) {
-		
-		
-
-	}
-
-
-	
-
 
 }
